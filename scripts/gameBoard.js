@@ -1,6 +1,6 @@
 const Ship = require('../scripts/ship');
 
-class gameBoard {
+class Gameboard {
     constructor() {
         this.board = [];
         this.ships = 0;
