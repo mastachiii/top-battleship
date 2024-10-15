@@ -1,6 +1,14 @@
+const shipsLength = {
+    Carrier: 5,
+    Battleship: 4,
+    Cruiser: 3,
+    Submarine: 3,
+    Destroyer: 2,
+};
+
 class Ship {
-    constructor(length) {
-        this.length = length;
+    constructor(ship) {
+        this.length = shipsLength[ship];
         this.hits = 0;
         this.sunk = false;
     }
@@ -18,5 +26,6 @@ class Ship {
         }
     }
 }
+
 
 module.exports = Ship;

@@ -17,8 +17,11 @@ class gameBoard {
         }
     }
 
-    placeShip() {
-        return null;
+    placeShip(ship, orientation, x, y) {
+        const xInbound = x >= 0 && x < this.board.length;
+        const yInbound = y >= 0 && y < this.board[0].length;
+        console.log({ xInbound, yInbound })
+        return xInbound === true && yInbound === true;
     }
 }
 
