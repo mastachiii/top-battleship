@@ -1,4 +1,4 @@
-const Ship = require('../scripts/ship');
+import { Ship } from '../scripts/ship.js';
 
 class Gameboard {
     constructor() {
@@ -14,7 +14,7 @@ class Gameboard {
             const row = [];
 
             for (let j = 0; j < 10; j++) {
-                row.push('W'); // Stands for water :)
+                row.push('WATER'); // Stands for water :)
             }
 
             this.board.push(row);
@@ -98,4 +98,5 @@ function validateCoordinates(board, shipLength, orientation, x, y) {
 
     return xInbound === true && yInbound === true;
 }
-module.exports = gameBoard;
+
+export { Gameboard };

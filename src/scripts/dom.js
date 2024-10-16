@@ -3,12 +3,18 @@ const DOM = {
         playerOneBoard: document.querySelector('.player-one-board'),
     },
 
-    createPlayerBoard() {
+    createPlayerBoard(playerGameBoard) {
+        const gameBoard = playerGameBoard.board;
+
         for (let i = 0; i < 10; i++) {
             const row = document.createElement('div');
+            row.classList.add(`row-${i}`);
 
             for (let j = 0; j < 10; j++) {
                 const square = document.createElement('div');
+                square.classList.add(`square-${j}`);
+                square.classList.add(`${gameBoard[i][j].toLowerCase()}`);
+                square.textContent = gameBoard[i][j];
 
                 row.append(square);
             }
@@ -16,6 +22,8 @@ const DOM = {
             this.nodes.playerOneBoard.append(row);
         }
     },
+
+    populateBoard() { },
 };
 
 export { DOM };
