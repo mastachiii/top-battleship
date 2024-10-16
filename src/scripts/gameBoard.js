@@ -60,7 +60,7 @@ class Gameboard {
             const currentTarget = this.board[y][x];
 
             // W === WATER || M === MISSED SHOTS
-            if (currentTarget !== 'W') {
+            if (currentTarget !== 'WATER') {
                 this[currentTarget].hit();
                 this.attackedSpaces.add(`${y}, ${x}`);
 
@@ -89,12 +89,12 @@ function validateCoordinates(board, shipLength, orientation, x, y) {
 
     if (shipLength && orientation) {
         orientation === 'Horizontal'
-            ? (xAxis += shipLength)
-            : (yAxis += shipLength);
+            ? (xAxis += shipLength - 1)
+            : (yAxis += shipLength - 1); // Subtract the ship length by one since, we're already alloting one square in this function call.
     }
 
     const xInbound = xAxis >= 0 && xAxis < board.length;
-    const yInbound = yAxis >= 0 && yAxis < board[0].length;
+    const yInbound = yAxis >= 0 && yAxis < board.length;
 
     return xInbound === true && yInbound === true;
 }

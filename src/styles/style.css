@@ -30,6 +30,34 @@ html {
     }
 }
 
+.miss {
+    background-color: crimson;
+}
+
+.hit {
+    background-color: orange;
+}
+
 .water {
     background-color: skyblue;
+}
+
+.carrier {
+    background-color: lightcoral;
+}
+
+.battleship {
+    background-color: lightgreen;
+}
+
+.cruiser {
+    background-color: goldenrod;
+}
+
+.submarine {
+    background-color: thistle;
+}
+
+.destroyer {
+    background-color: pink;
 }

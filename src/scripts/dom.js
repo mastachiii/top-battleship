@@ -14,16 +14,22 @@ const DOM = {
                 const square = document.createElement('div');
                 square.classList.add(`square-${j}`);
                 square.classList.add(`${gameBoard[i][j].toLowerCase()}`);
-                square.textContent = gameBoard[i][j];
+                square.textContent = gameBoard[i][j].toUpperCase();
 
                 row.append(square);
             }
 
             this.nodes.playerOneBoard.append(row);
         }
+
+        console.log(gameBoard);
     },
 
-    populateBoard() { },
+    clearBoard() {
+        [...this.nodes.playerOneBoard.children].forEach((child) => {
+            this.nodes.playerOneBoard.removeChild(child);
+        });
+    },
 };
 
 export { DOM };
