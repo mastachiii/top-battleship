@@ -7,6 +7,7 @@ class Gameboard {
         this.occupiedSpaces = new Set();
         this.attackedSpaces = new Set();
         this.missedSpaces = new Set();
+        this.shipsPlaced = new Set();
     }
 
     populateBoard() {
@@ -23,6 +24,7 @@ class Gameboard {
 
     placeShip(shipType, orientation, x, y) {
         if (this.occupiedSpaces.has(`${y}, ${x}`)) return false;
+        if (this.shipsPlaced.has(shipType)) return false;
 
         const ship = new Ship(shipType);
         const isValid = validateCoordinates(
@@ -36,18 +38,31 @@ class Gameboard {
         this[shipType] = ship;
 
         if (isValid) {
+            //HEAD FIRST CHECK
+            for (let i = 0; i < ship.length; i++) {
+                if (orientation === 'Horizontal') {
+                    if (this.occupiedSpaces.has(`${y}, ${x + i}`)) return false;
+                } else {
+                    if (this.occupiedSpaces.has(`${y + i}, ${x}`)) return false;
+                }
+            }
+
             for (let i = 0; i < ship.length; i++) {
                 if (orientation === 'Horizontal') {
                     this.board[y][x + i] = shipType;
                     this.occupiedSpaces.add(`${y}, ${x + i}`);
+                    this.shipsPlaced.add(shipType);
                 } else {
                     this.board[y + i][x] = shipType;
                     this.occupiedSpaces.add(`${y + i}, ${x}`);
+                    this.shipsPlaced.add(shipType);
                 }
             }
 
             this.ships += 1;
         }
+
+        return true;
     }
 
     recieveAttack(x, y) {
@@ -74,12 +89,13 @@ class Gameboard {
             }
         }
 
+        console.log(this.ships);
+
         return true;
     }
 
     alertAllShipsDestroyed() {
-        console.log(`ALL SHIPS WRECKED!`);
-        return `DESTROYED`;
+        return this.ships === 0;
     }
 }
 

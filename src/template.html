@@ -6,8 +6,27 @@
         <title>Document</title>
     </head>
     <body>
+        <div class="intro-screen">
+            <h1>BATTLESHIP</h1>
+            <button>START</button>
+        </div>
         <main>
-            <div class="player-one-board"></div>
+            <div class="player-one-board" data-board="1"></div>
+            <div class="player-two-board" data-board="2"></div>
         </main>
     </body>
+    <dialog class="boat-staging-screen">
+        <div class="player-staging-board"></div>
+        <div class="ship-choices">
+            <button data-value="ship">Carrier</button>
+            <button data-value="ship">Battleship</button>
+            <button data-value="ship">Cruiser</button>
+            <button data-value="ship">Submarine</button>
+            <button data-value="ship">Destroyer</button>
+        </div>
+        <div class="ship-orientation-choice">
+            <button data-value="orientation">Horizontal</button>
+            <button data-value="orientation">Vertical</button>
+        </div>
+    </dialog>
 </html>

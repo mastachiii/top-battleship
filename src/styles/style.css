@@ -1,13 +1,18 @@
 html {
-    width: calc(1900rem / 16);
-    height: calc(1900rem / 16);
+    width: calc(1903rem / 16);
+    height: calc(993rem / 16);
 
     > body {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
         > main {
-            display: flex;
+            display: none;
             justify-content: center;
+            gap: calc(50rem / 16);
 
-            > .player-one-board {
+            > .player-one-board,
+            > .player-two-board {
                 width: calc(700rem / 16);
                 height: calc(700rem / 16);
                 background-color: pink;
@@ -26,6 +31,12 @@ html {
                     }
                 }
             }
+        }
+
+        .ship-orientation-choice,
+        .ship-choices {
+            display: none;
+            margin: calc(20rem / 16) auto 0 auto;
         }
     }
 }
