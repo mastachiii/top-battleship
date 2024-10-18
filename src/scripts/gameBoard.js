@@ -1,4 +1,5 @@
 import { Ship } from '../scripts/ship.js';
+import { computer } from './computer.js';
 
 class Gameboard {
     constructor() {
@@ -67,13 +68,15 @@ class Gameboard {
         return true;
     }
 
-    recieveAttack(x, y) {
+    recieveAttack(x, y, isComputer) {
         if (this.attackedSpaces.has(`${y}, ${x}`)) return false;
         if (this.missedSpaces.has(`${y}, ${x}`)) return false;
 
         const isValid = validateCoordinates(this.board, null, null, x, y);
 
-        if (isValid) {
+        if (isValid === false) {
+            return false;
+        } else {
             const currentTarget = this.board[y][x];
 
             // W === WATER || M === MISSED SHOTS
@@ -83,6 +86,12 @@ class Gameboard {
 
                 this.board[y][x] = 'HIT';
 
+                if (isComputer) {
+                    computer.hitQueue.push([x - 1, y]);
+                    computer.hitQueue.push([x, y - 1]);
+                    computer.hitQueue.push([x + 1, y]);
+                    computer.hitQueue.push([x, y + 1]);
+                }
                 if (this[currentTarget].isSunk()) this.ships -= 1;
                 if (this.ships === 0) return this.alertAllShipsDestroyed();
             } else {
@@ -90,8 +99,6 @@ class Gameboard {
                 this.board[y][x] = 'MISS';
             }
         }
-
-        console.log(this.ships);
 
         return true;
     }
@@ -127,7 +134,13 @@ class Gameboard {
                 );
             }
         }
-        console.log(this.board);
+    }
+
+    attackShipComputer(enemyGameBoard) {
+        const xAxis = Math.floor(Math.random() * 10);
+        const yAxis = Math.floor(Math.random() * 10);
+
+        enemyGameBoard.recieveAttack(xAxis, yAxis);
     }
 }
 

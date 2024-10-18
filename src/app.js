@@ -35,26 +35,43 @@ document.addEventListener('click', (e) => {
         DOM.createPlayerBoard(playerOne.gameBoard, 1);
         DOM.createPlayerBoard(playerTwo.gameBoard, 2);
     }
-
-    console.log(DOM.allPiecesPlaced());
 });
 
 // Attack Pieces
 document.addEventListener('click', (e) => {
+    if (DOM.currentTurn === 'COMPUTER') return;
+
     const currentTarget = e.target;
+    const currentBoard =
+        +currentTarget.parentElement.parentElement.getAttribute('data-board');
 
     if (!currentTarget.hasAttribute('data-square')) return;
+    if (DOM.currentTurn === currentBoard) return;
 
     if (DOM.allPiecesPlaced() === true) {
         let currentEnemy;
+        const xAxis = Math.floor(Math.random() * 10);
+        const yAxis = Math.floor(Math.random() * 10);
 
         currentEnemy = DOM.currentTurn === 1 ? playerTwo : playerOne;
 
         DOM.attackEvent(currentTarget, currentEnemy);
+
         if (currentEnemy.gameBoard.alertAllShipsDestroyed()) {
             alert('YOU WIN');
             window.location.reload();
         }
+
+        DOM.currentTurn = 'COMPUTER';
+
+        DOM.attackEvent(currentTarget, playerOne, xAxis, yAxis);
+
+        if (playerOne.gameBoard.alertAllShipsDestroyed()) {
+            alert('YOU WIN');
+            window.location.reload();
+        }
+
+        DOM.currentTurn = 1;
     }
 });
 
@@ -117,11 +134,9 @@ document.addEventListener('click', (e) => {
 
     if (currentTarget.getAttribute('data-value') === 'ship') {
         DOM.currentPiece = currentTarget.textContent;
-        console.log(DOM.currentPiece);
     }
 
     if (currentTarget.getAttribute('data-value') === 'orientation') {
         DOM.currentOrientation = currentTarget.textContent;
-        console.log(DOM.currentOrientation);
     }
 });

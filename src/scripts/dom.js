@@ -1,4 +1,4 @@
-import { Player } from './player';
+import { computer } from './computer';
 
 const DOM = {
     currentTurn: 1,
@@ -7,6 +7,7 @@ const DOM = {
     currentOrientation: 'Horizontal',
     playerOnePiecesPlaced: 0,
     playerTwoPiecesPlaced: 0,
+    hitList: [],
 
     nodes: {
         playerOneBoard: document.querySelector('.player-one-board'),
@@ -18,11 +19,6 @@ const DOM = {
         const gameBoard = playerGameBoard.board;
 
         let gameBoardDiv;
-
-        // gameBoardDiv =
-        //     currentPlayer === 1
-        //         ? this.nodes.playerOneBoard
-        //         : this.nodes.playerTwoBoard;
 
         switch (currentPlayer) {
             case 1:
@@ -37,21 +33,52 @@ const DOM = {
                 gameBoardDiv = this.nodes.playerStagingBoard;
         }
 
-        for (let i = 0; i < 10; i++) {
-            const row = document.createElement('div');
-            row.classList.add(`row-${i}`);
+        if (currentPlayer === 1 || currentPlayer === 3) {
+            for (let i = 0; i < 10; i++) {
+                const row = document.createElement('div');
+                row.classList.add(`row-${i}`);
 
-            for (let j = 0; j < 10; j++) {
-                const square = document.createElement('div');
-                square.classList.add(`square-${j}`);
-                square.classList.add(`${gameBoard[i][j].toLowerCase()}`);
-                square.setAttribute('data-square', j);
-                square.textContent = gameBoard[i][j].toUpperCase();
+                for (let j = 0; j < 10; j++) {
+                    const square = document.createElement('div');
 
-                row.append(square);
+                    square.classList.add(`square-${j}`);
+                    square.classList.add(`${gameBoard[i][j].toLowerCase()}`);
+                    square.setAttribute('data-square', j);
+                    square.textContent = gameBoard[i][j].toUpperCase();
+
+                    row.append(square);
+                }
+
+                gameBoardDiv.append(row);
             }
+        } else {
+            for (let i = 0; i < 10; i++) {
+                const row = document.createElement('div');
+                row.classList.add(`row-${i}`);
 
-            gameBoardDiv.append(row);
+                for (let j = 0; j < 10; j++) {
+                    const square = document.createElement('div');
+                    let squareText = gameBoard[i][j];
+
+                    switch (squareText) {
+                        case 'HIT':
+                        case 'MISS':
+                            break;
+
+                        default:
+                            squareText = 'WATER';
+                    }
+
+                    square.classList.add(`square-${j}`);
+                    square.classList.add(`${squareText.toLowerCase()}`);
+                    square.setAttribute('data-square', j);
+                    square.textContent = squareText.toUpperCase();
+
+                    row.append(square);
+                }
+
+                gameBoardDiv.append(row);
+            }
         }
     },
 
@@ -71,26 +98,47 @@ const DOM = {
         }
     },
 
-    attackEvent(currentSquare, currentEnemy) {
+    attackEvent(currentSquare, currentEnemy, x, y) {
         const xAxis = currentSquare.classList[0].slice(-1);
         const yAxis = currentSquare.parentElement.classList[0].slice(-1);
         const currentBoard =
-            +currentSquare.parentElement.parentElement.getAttribute(
-                'data-board'
-            );
+            currentSquare.parentElement.parentElement !== null
+                ? +currentSquare.parentElement.parentElement.getAttribute(
+                    'data-board'
+                )
+                : null;
 
         if (this.currentTurn === 1 && currentBoard === 2) {
-            currentEnemy.gameBoard.recieveAttack(xAxis, yAxis);
+            if (!currentEnemy.gameBoard.recieveAttack(xAxis, yAxis)) return;
             DOM.clearBoard(2);
             DOM.createPlayerBoard(currentEnemy.gameBoard, 2);
             this.currentTurn = 2;
         }
 
-        if (this.currentTurn === 2 && currentBoard === 1) {
-            currentEnemy.gameBoard.recieveAttack(xAxis, yAxis);
-            DOM.clearBoard(1);
-            DOM.createPlayerBoard(currentEnemy.gameBoard, 1);
-            this.currentTurn = 1;
+        if (this.currentTurn === 'COMPUTER') {
+            let isHit = false;
+
+            while (isHit === false) {
+                let randomXAxis = Math.floor(Math.random() * 10);
+                let randomYAxis = Math.floor(Math.random() * 10);
+
+                if (computer.isHitQueueEmpty() === false) {
+                    const coordinates = computer.getItemFromQueue();
+
+                    randomXAxis = coordinates[0];
+                    randomYAxis = coordinates[1];
+                }
+
+                isHit = currentEnemy.gameBoard.recieveAttack(
+                    randomXAxis,
+                    randomYAxis,
+                    true
+                );
+
+                DOM.clearBoard(1);
+                DOM.createPlayerBoard(currentEnemy.gameBoard, 1);
+                this.currentTurn = 1;
+            }
         }
     },
 
@@ -102,9 +150,7 @@ const DOM = {
     },
 
     allPiecesPlaced() {
-        return (
-            this.playerOnePiecesPlaced === 5
-        );
+        return this.playerOnePiecesPlaced === 5;
     },
 };
 
