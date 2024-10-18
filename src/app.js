@@ -9,8 +9,35 @@ const playerTwo = new Player();
 playerOne.gameBoard.populateBoard();
 playerTwo.gameBoard.populateBoard();
 
-DOM.createPlayerBoard(playerOne.gameBoard, 1);
-DOM.createPlayerBoard(playerTwo.gameBoard, 2);
+DOM.createPlayerBoard(playerOne.gameBoard, 3);
+playerTwo.gameBoard.placeShipRandomly();
+// DOM.createPlayerBoard(playerTwo.gameBoard, 2);
+
+// Start Game
+document.addEventListener('click', (e) => {
+    const currentTarget = e.target;
+    const shipStagingScreen = document.querySelector('.ship-staging-screen');
+
+    if (currentTarget.textContent === 'START') shipStagingScreen.showModal();
+});
+
+document.addEventListener('click', (e) => {
+    const currentTarget = e.target;
+    const shipStagingScreen = document.querySelector('.ship-staging-screen');
+    const main = document.querySelector('main');
+
+    if (
+        currentTarget.textContent === 'DONE' &&
+        DOM.playerOnePiecesPlaced === 5
+    ) {
+        shipStagingScreen.style.display = 'none';
+        main.style.display = 'flex';
+        DOM.createPlayerBoard(playerOne.gameBoard, 1);
+        DOM.createPlayerBoard(playerTwo.gameBoard, 2);
+    }
+
+    console.log(DOM.allPiecesPlaced());
+});
 
 // Attack Pieces
 document.addEventListener('click', (e) => {
@@ -24,7 +51,10 @@ document.addEventListener('click', (e) => {
         currentEnemy = DOM.currentTurn === 1 ? playerTwo : playerOne;
 
         DOM.attackEvent(currentTarget, currentEnemy);
-        if (currentEnemy.gameBoard.alertAllShipsDestroyed()) alert('YOU WIN');
+        if (currentEnemy.gameBoard.alertAllShipsDestroyed()) {
+            alert('YOU WIN');
+            window.location.reload();
+        }
     }
 });
 
@@ -56,8 +86,8 @@ document.addEventListener('click', (e) => {
 
             if (!isShipPlaced) return;
 
-            DOM.clearBoard(currentPlayer);
-            DOM.createPlayerBoard(currentPlayerBoard, currentPlayer);
+            DOM.clearBoard(3);
+            DOM.createPlayerBoard(currentPlayerBoard, 3);
             DOM.playerOnePiecesPlaced += 1;
 
             DOM.currentPlayer =

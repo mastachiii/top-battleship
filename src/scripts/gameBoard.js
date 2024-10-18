@@ -62,6 +62,8 @@ class Gameboard {
             this.ships += 1;
         }
 
+        if (isValid === false) return false;
+
         return true;
     }
 
@@ -96,6 +98,36 @@ class Gameboard {
 
     alertAllShipsDestroyed() {
         return this.ships === 0;
+    }
+
+    placeShipRandomly() {
+        const ships = [
+            'Carrier',
+            'Battleship',
+            'Cruiser',
+            'Submarine',
+            'Destroyer',
+        ];
+        const orientation = ['Horizontal', 'Vertical'];
+
+        for (let ship of ships) {
+            let isPlaced = false;
+
+            while (isPlaced === false) {
+                const xAxis = Math.floor(Math.random() * 10);
+                const yAxis = Math.floor(Math.random() * 10);
+                const randomOrientation =
+                    orientation[Math.floor(Math.random() * 2)];
+
+                isPlaced = this.placeShip(
+                    ship,
+                    randomOrientation,
+                    xAxis,
+                    yAxis
+                );
+            }
+        }
+        console.log(this.board);
     }
 }
 

@@ -35,8 +35,32 @@ html {
 
         .ship-orientation-choice,
         .ship-choices {
-            display: none;
             margin: calc(20rem / 16) auto 0 auto;
+        }
+
+        .ship-staging-screen {
+            width: calc(700rem / 16);
+            height: calc(700rem / 16);
+            display: flex;
+            flex-direction: column;
+
+            .player-staging-board {
+                width: 100%;
+                height: 100%;
+                > div {
+                    width: 100%;
+                    height: 10%;
+                    display: flex;
+                    border: solid 1px black;
+
+                    > div {
+                        width: 10%;
+                        height: 100%;
+                        border: solid 1px black;
+                        text-align: center;
+                    }
+                }
+            }
         }
     }
 }

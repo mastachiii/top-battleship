@@ -11,6 +11,7 @@ const DOM = {
     nodes: {
         playerOneBoard: document.querySelector('.player-one-board'),
         playerTwoBoard: document.querySelector('.player-two-board'),
+        playerStagingBoard: document.querySelector('.player-staging-board'),
     },
 
     createPlayerBoard(playerGameBoard, currentPlayer) {
@@ -18,10 +19,23 @@ const DOM = {
 
         let gameBoardDiv;
 
-        gameBoardDiv =
-            currentPlayer === 1
-                ? this.nodes.playerOneBoard
-                : this.nodes.playerTwoBoard;
+        // gameBoardDiv =
+        //     currentPlayer === 1
+        //         ? this.nodes.playerOneBoard
+        //         : this.nodes.playerTwoBoard;
+
+        switch (currentPlayer) {
+            case 1:
+                gameBoardDiv = this.nodes.playerOneBoard;
+                break;
+
+            case 2:
+                gameBoardDiv = this.nodes.playerTwoBoard;
+                break;
+
+            default:
+                gameBoardDiv = this.nodes.playerStagingBoard;
+        }
 
         for (let i = 0; i < 10; i++) {
             const row = document.createElement('div');
@@ -46,9 +60,13 @@ const DOM = {
             [...this.nodes.playerOneBoard.children].forEach((child) => {
                 this.nodes.playerOneBoard.removeChild(child);
             });
-        } else {
+        } else if (boardNumber === 2) {
             [...this.nodes.playerTwoBoard.children].forEach((child) => {
                 this.nodes.playerTwoBoard.removeChild(child);
+            });
+        } else {
+            [...this.nodes.playerStagingBoard.children].forEach((child) => {
+                this.nodes.playerStagingBoard.removeChild(child);
             });
         }
     },
@@ -85,7 +103,7 @@ const DOM = {
 
     allPiecesPlaced() {
         return (
-            this.playerOnePiecesPlaced === 5 && this.playerTwoPiecesPlaced === 5
+            this.playerOnePiecesPlaced === 5
         );
     },
 };
