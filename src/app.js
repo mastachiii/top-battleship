@@ -11,7 +11,6 @@ playerTwo.gameBoard.populateBoard();
 
 DOM.createPlayerBoard(playerOne.gameBoard, 3);
 playerTwo.gameBoard.placeShipRandomly();
-// DOM.createPlayerBoard(playerTwo.gameBoard, 2);
 
 // Start Game
 document.addEventListener('click', (e) => {
