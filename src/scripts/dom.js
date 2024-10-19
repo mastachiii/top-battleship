@@ -108,13 +108,6 @@ const DOM = {
                 )
                 : null;
 
-        if (this.currentTurn === 1 && currentBoard === 2) {
-            if (!currentEnemy.gameBoard.recieveAttack(xAxis, yAxis)) return;
-            DOM.clearBoard(2);
-            DOM.createPlayerBoard(currentEnemy.gameBoard, 2);
-            this.currentTurn = 2;
-        }
-
         if (this.currentTurn === 'COMPUTER') {
             let isHit = false;
 
@@ -139,6 +132,30 @@ const DOM = {
                 DOM.createPlayerBoard(currentEnemy.gameBoard, 1);
                 this.currentTurn = 1;
             }
+
+            if (isHit === 'HIT') {
+                setTimeout(() => {
+                    this.currentTurn = 'COMPUTER';
+                    this.attackEvent(currentSquare, currentEnemy, x, y);
+
+                    if (currentEnemy.gameBoard.alertAllShipsDestroyed()) {
+                        alert('YOU WIN');
+                        window.location.reload();
+                    }
+                }, 1000);
+            }
+        }
+
+        if (this.currentTurn === 1 && currentBoard === 2) {
+            let isHit = currentEnemy.gameBoard.recieveAttack(xAxis, yAxis);
+
+            if (!isHit) return;
+
+            DOM.clearBoard(2);
+            DOM.createPlayerBoard(currentEnemy.gameBoard, 2);
+            this.currentTurn = 'COMPUTER';
+
+            if (isHit === 'HIT') this.currentTurn = 1;
         }
     },
 

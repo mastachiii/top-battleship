@@ -96,3 +96,7 @@ html {
 .destroyer {
     background-color: pink;
 }
+
+.active {
+    background-color: green;
+}

@@ -2,6 +2,7 @@ import './styles/normalize.css';
 import './styles/style.css';
 import { DOM } from './scripts/dom.js';
 import { Player } from './scripts/player.js';
+import { shipsLength } from './scripts/ship.js';
 
 const playerOne = new Player();
 const playerTwo = new Player();
@@ -39,13 +40,14 @@ document.addEventListener('click', (e) => {
 // Attack Pieces
 document.addEventListener('click', (e) => {
     if (DOM.currentTurn === 'COMPUTER') return;
-
     const currentTarget = e.target;
     const currentBoard =
         +currentTarget.parentElement.parentElement.getAttribute('data-board');
 
     if (!currentTarget.hasAttribute('data-square')) return;
     if (DOM.currentTurn === currentBoard) return;
+
+    currentTarget.classList.remove('active');
 
     if (DOM.allPiecesPlaced() === true) {
         let currentEnemy;
@@ -61,16 +63,20 @@ document.addEventListener('click', (e) => {
             window.location.reload();
         }
 
-        DOM.currentTurn = 'COMPUTER';
+        // DOM.currentTurn = 'COMPUTER';
+        console.log(DOM.currentTurn);
+        if (DOM.currentTurn === 'COMPUTER') {
+            setTimeout(() => {
+                DOM.attackEvent(currentTarget, playerOne, xAxis, yAxis);
 
-        DOM.attackEvent(currentTarget, playerOne, xAxis, yAxis);
+                if (playerOne.gameBoard.alertAllShipsDestroyed()) {
+                    alert('YOU WIN');
+                    window.location.reload();
+                }
 
-        if (playerOne.gameBoard.alertAllShipsDestroyed()) {
-            alert('YOU WIN');
-            window.location.reload();
+                DOM.currentTurn = 1;
+            }, 1000);
         }
-
-        DOM.currentTurn = 1;
     }
 });
 
@@ -80,6 +86,8 @@ document.addEventListener('click', (e) => {
 
     if (!currentTarget.hasAttribute('data-square')) return;
     if (DOM.allPiecesPlaced()) return;
+
+    currentTarget.classList.remove('active');
 
     const xAxis = +currentTarget.classList[0].slice(-1);
     const yAxis = +currentTarget.parentElement.classList[0].slice(-1);
@@ -137,5 +145,82 @@ document.addEventListener('click', (e) => {
 
     if (currentTarget.getAttribute('data-value') === 'orientation') {
         DOM.currentOrientation = currentTarget.textContent;
+    }
+});
+
+// Highlight Squares
+document.addEventListener('mouseover', (e) => {
+    const currentSquare = e.target;
+    const isSquare = currentSquare.getAttribute('data-square');
+
+    if (isSquare) {
+        const isStagingBoard =
+            currentSquare.parentElement.parentElement.classList.contains(
+                'player-staging-board'
+            );
+        let row = +currentSquare.parentElement.classList[0].slice(-1);
+        let column = +currentSquare.classList[0].slice(-1);
+
+        if (isStagingBoard) {
+            for (let i = 0; i < shipsLength[DOM.currentPiece]; i++) {
+                const currentSquare = document.querySelector(
+                    `.row-${row} > .square-${column}`
+                );
+
+                if (!currentSquare) break;
+
+                currentSquare.classList.add('active');
+
+                switch (DOM.currentOrientation) {
+                    case 'Horizontal':
+                        column += 1;
+                        break;
+
+                    case 'Vertical':
+                        row += 1;
+                }
+
+                console.log(row, column);
+                console.log(currentSquare);
+            }
+        }
+    }
+});
+
+document.addEventListener('mouseout', (e) => {
+    const currentSquare = e.target;
+    const isSquare = currentSquare.getAttribute('data-square');
+
+    if (isSquare) {
+        const isStagingBoard =
+            currentSquare.parentElement.parentElement.classList.contains(
+                'player-staging-board'
+            );
+        let row = +currentSquare.parentElement.classList[0].slice(-1);
+        let column = +currentSquare.classList[0].slice(-1);
+
+        if (isStagingBoard) {
+            for (let i = 0; i < shipsLength[DOM.currentPiece]; i++) {
+                const currentSquare = document.querySelector(
+                    `.row-${row} > .square-${column}`
+                );
+
+                if (!currentSquare) break;
+
+                currentSquare.classList.remove('active');
+
+                switch (DOM.currentOrientation) {
+                    case 'Horizontal':
+                        column += 1;
+                        break;
+
+                    case 'Vertical':
+                        row += 1;
+                }
+
+                console.log(row, column);
+                console.log(currentSquare);
+            }
+        }
     }
 });

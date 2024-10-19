@@ -94,6 +94,8 @@ class Gameboard {
                 }
                 if (this[currentTarget].isSunk()) this.ships -= 1;
                 if (this.ships === 0) return this.alertAllShipsDestroyed();
+
+                return 'HIT';
             } else {
                 this.missedSpaces.add(`${y}, ${x}`);
                 this.board[y][x] = 'MISS';
