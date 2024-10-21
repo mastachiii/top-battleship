@@ -18,7 +18,10 @@ document.addEventListener('click', (e) => {
     const currentTarget = e.target;
     const shipStagingScreen = document.querySelector('.ship-staging-screen');
 
-    if (currentTarget.textContent === 'START') shipStagingScreen.showModal();
+    if (currentTarget.textContent === 'START') {
+        shipStagingScreen.showModal();
+        shipStagingScreen.style.display = 'flex';
+    }
 });
 
 document.addEventListener('click', (e) => {
@@ -27,11 +30,13 @@ document.addEventListener('click', (e) => {
     const main = document.querySelector('main');
 
     if (
-        currentTarget.textContent === 'DONE' &&
+        currentTarget.getAttribute('data-function') === 'start-game' &&
         DOM.playerOnePiecesPlaced === 5
     ) {
+        shipStagingScreen.close();
         shipStagingScreen.style.display = 'none';
         main.style.display = 'flex';
+        DOM.nodes.introScreen.style.display = 'none';
         DOM.createPlayerBoard(playerOne.gameBoard, 1);
         DOM.createPlayerBoard(playerTwo.gameBoard, 2);
     }
@@ -39,12 +44,14 @@ document.addEventListener('click', (e) => {
 
 // Attack Pieces
 document.addEventListener('click', (e) => {
-    if (DOM.currentTurn === 'COMPUTER') return;
     const currentTarget = e.target;
+
+    if (DOM.currentTurn === 'COMPUTER') return;
+    if (!currentTarget.hasAttribute('data-square')) return;
+
     const currentBoard =
         +currentTarget.parentElement.parentElement.getAttribute('data-board');
 
-    if (!currentTarget.hasAttribute('data-square')) return;
     if (DOM.currentTurn === currentBoard) return;
 
     currentTarget.classList.remove('active');
@@ -144,7 +151,8 @@ document.addEventListener('click', (e) => {
     }
 
     if (currentTarget.getAttribute('data-value') === 'orientation') {
-        DOM.currentOrientation = currentTarget.textContent;
+        DOM.currentOrientation =
+            DOM.currentOrientation === 'Horizontal' ? 'Vertical' : 'Horizontal';
     }
 });
 
@@ -179,10 +187,9 @@ document.addEventListener('mouseover', (e) => {
                     case 'Vertical':
                         row += 1;
                 }
-
-                console.log(row, column);
-                console.log(currentSquare);
             }
+        } else {
+            currentSquare.classList.add('active');
         }
     }
 });
@@ -217,10 +224,9 @@ document.addEventListener('mouseout', (e) => {
                     case 'Vertical':
                         row += 1;
                 }
-
-                console.log(row, column);
-                console.log(currentSquare);
             }
+        } else {
+            currentSquare.classList.remove('active');
         }
     }
 });

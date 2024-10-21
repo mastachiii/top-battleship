@@ -1,33 +1,112 @@
+@font-face {
+    font-family: 'Arrr Matey';
+    src: url(../assets/fonts/arrr-matey-bb.regular.ttf);
+}
+
 html {
     width: calc(1903rem / 16);
     height: calc(993rem / 16);
+    --main-text-color: #f8fafc;
+    --main-text-color-active: #27272a;
 
     > body {
+        width: 100%;
+        height: 100%;
         display: flex;
         flex-direction: column;
         gap: 30px;
+        background-image: url(../assets/images/background.jpg);
+
+        > .intro-screen {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            > img {
+                width: calc(800rem / 16);
+            }
+
+            > button {
+                width: calc(100rem / 16);
+                height: calc(100rem / 16);
+                background: none;
+                border: none;
+                font-family: 'Arrr Matey';
+                font-size: calc(45rem / 16);
+                color: var(--main-text-color);
+            }
+
+            > button:hover {
+                color: var(--main-text-color-active);
+            }
+        }
+
         > main {
             display: none;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             gap: calc(50rem / 16);
 
-            > .player-one-board,
-            > .player-two-board {
-                width: calc(700rem / 16);
-                height: calc(700rem / 16);
-                background-color: pink;
+            > .player-stats {
+                display: flex;
+                justify-content: space-around;
+                width: calc(1400rem / 16);
+                height: calc(200rem / 16);
+                /* background-color: red; */
 
                 > div {
-                    width: 100%;
-                    height: 10%;
                     display: flex;
-                    border: solid 1px black;
+                    flex-direction: column;
+                    align-items: center;
+                    width: calc(200rem / 16);
+                    height: calc(200rem / 16);
+                    /* background-color: yellow; */
+
+                    > img {
+                        width: 120px;
+                        height: 120px;
+                        margin: calc(20rem / 16) 0 0 0;
+                    }
+
+                    > .ship-lives {
+                        width: calc(350rem / 16);
+                        display: flex;
+                        justify-content: center;
+                        gap: calc(15rem / 16);
+                        margin: calc(30rem / 16) 0 0 0;
+
+                        > img {
+                            width: calc(50rem / 16);
+                        }
+                    }
+                }
+            }
+
+            > .player-boards {
+                display: flex;
+                gap: calc(80rem / 16);
+                > .player-one-board,
+                > .player-two-board {
+                    width: calc(650rem / 16);
+                    height: calc(650rem / 16);
+                    background-color: pink;
 
                     > div {
-                        width: 10%;
-                        height: 100%;
+                        width: 100%;
+                        height: 10%;
+                        display: flex;
                         border: solid 1px black;
-                        text-align: center;
+
+                        > div {
+                            width: 10%;
+                            height: 100%;
+                            border: solid 1px black;
+                            text-align: center;
+                        }
                     }
                 }
             }
@@ -39,27 +118,94 @@ html {
         }
 
         .ship-staging-screen {
-            width: calc(700rem / 16);
-            height: calc(700rem / 16);
-            display: flex;
+            width: calc(850rem / 16);
+            height: calc(850rem / 16);
+            display: none;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: solid 1px transparent;
+            border-radius: calc(10rem / 16);
+            background-color: #d3a263;
+
+            > header {
+                font-size: calc(70rem / 16);
+                font-family: 'Arrr Matey';
+                color: var(--main-text-color);
+                text-align: center;
+                margin: 0 0 calc(20rem / 16) 0;
+            }
 
             .player-staging-board {
                 width: 100%;
-                height: 100%;
+                height: 70%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
                 > div {
-                    width: 100%;
-                    height: 10%;
+                    width: calc(580rem / 16);
+                    height: calc(55rem / 16);
                     display: flex;
-                    border: solid 1px black;
+                    border: solid 1px #27272a;
 
                     > div {
                         width: 10%;
                         height: 100%;
-                        border: solid 1px black;
+                        border: solid 0.5px #27272a;
                         text-align: center;
                     }
                 }
+            }
+
+            > .ship-choices {
+                display: flex;
+                gap: calc(20rem / 16);
+                margin-top: 0;
+
+                > button {
+                    width: calc(100rem / 16);
+                    background: none;
+                    font-family: 'Arrr Matey';
+                    font-size: calc(45rem / 16);
+                    color: var(--main-text-color);
+                    border: none;
+                }
+
+                > button:hover {
+                    color: var(--main-text-color-active);
+                }
+
+                > .ship-orientation-choice {
+                    > button {
+                        width: calc(40rem / 16);
+                        height: calc(60rem / 16);
+                        margin: 0 0 calc(20rem / 16) 0;
+                        background: none;
+                        border: none;
+                        background-image: url(../assets/images/rotate.svg);
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-size: calc(40rem / 16);
+                    }
+
+                    > button:hover {
+                        background-image: url(../assets/images/rotate-active.svg);
+                    }
+                }
+            }
+
+            > button {
+                width: calc(100rem / 16);
+                height: calc(100rem / 16);
+                background: none;
+                background-image: url(../assets/images/enter-battle.svg);
+                background-position: center;
+                background-repeat: no-repeat;
+                border: none;
+            }
+
+            > button:hover {
+                background-image: url(../assets/images/enter-battle-active.svg);
             }
         }
     }
@@ -74,29 +220,18 @@ html {
 }
 
 .water {
-    background-color: skyblue;
+    background-color: #67e8f9;
+    background-image: url(../assets/images/wave.svg);
 }
 
-.carrier {
-    background-color: lightcoral;
-}
-
-.battleship {
-    background-color: lightgreen;
-}
-
-.cruiser {
-    background-color: goldenrod;
-}
-
-.submarine {
-    background-color: thistle;
-}
-
+.carrier,
+.battleship,
+.cruiser,
+.submarine,
 .destroyer {
-    background-color: pink;
+    background-color: #84cc16;
 }
 
 .active {
-    background-color: green;
+    background-color: #bef264;
 }

@@ -13,6 +13,7 @@ const DOM = {
         playerOneBoard: document.querySelector('.player-one-board'),
         playerTwoBoard: document.querySelector('.player-two-board'),
         playerStagingBoard: document.querySelector('.player-staging-board'),
+        introScreen: document.querySelector('.intro-screen'),
     },
 
     createPlayerBoard(playerGameBoard, currentPlayer) {
@@ -44,7 +45,6 @@ const DOM = {
                     square.classList.add(`square-${j}`);
                     square.classList.add(`${gameBoard[i][j].toLowerCase()}`);
                     square.setAttribute('data-square', j);
-                    square.textContent = gameBoard[i][j].toUpperCase();
 
                     row.append(square);
                 }
@@ -72,7 +72,6 @@ const DOM = {
                     square.classList.add(`square-${j}`);
                     square.classList.add(`${squareText.toLowerCase()}`);
                     square.setAttribute('data-square', j);
-                    square.textContent = squareText.toUpperCase();
 
                     row.append(square);
                 }

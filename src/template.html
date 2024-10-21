@@ -7,27 +7,66 @@
     </head>
     <body>
         <div class="intro-screen">
-            <h1>BATTLESHIP</h1>
+            <img src="<%=require("./assets/images/title-screen-logo.png")%>"
+            alt="">
             <button>START</button>
         </div>
         <main>
-            <div class="player-one-board" data-board="1"></div>
-            <div class="player-two-board" data-board="2"></div>
+            <div class="player-stats">
+                <div>
+                    <img class="player-icon" src=
+                    "<%=require("./assets/images/pirate.svg")%>" />
+                    <div class="ship-lives">
+                        <img data-live="1" src=
+                        "<%=require("./assets/images/ship-lives.svg")%>" /> <img
+                        data-live="1" src=
+                        "<%=require("./assets/images/ship-lives.svg")%>" /> <img
+                        data-live="1" src=
+                        "<%=require("./assets/images/ship-lives.svg")%>" /> <img
+                        data-live="1" src=
+                        "<%=require("./assets/images/ship-lives.svg")%>" /> <img
+                        data-live="1" src=
+                        "<%=require("./assets/images/ship-lives.svg")%>" />
+                    </div>
+                </div>
+                <div>
+                    <img class="player-icon" src=
+                    "<%=require("./assets/images/pirate-enemy.svg")%>" />
+                    <div class="ship-lives">
+                        <img data-live="1" src=
+                        "<%=require("./assets/images/ship-lives.svg")%>" /> <img
+                        data-live="1" src=
+                        "<%=require("./assets/images/ship-lives.svg")%>" /> <img
+                        data-live="1" src=
+                        "<%=require("./assets/images/ship-lives.svg")%>" /> <img
+                        data-live="1" src=
+                        "<%=require("./assets/images/ship-lives.svg")%>" /> <img
+                        data-live="1" src=
+                        "<%=require("./assets/images/ship-lives.svg")%>" />
+                    </div>
+                </div>
+            </div>
+            <div class="player-boards">
+                <div class="player-one-board" data-board="1"></div>
+                <div class="player-two-board" data-board="2"></div>
+            </div>
         </main>
     </body>
     <dialog class="ship-staging-screen">
+        <header>Arrange your fleet, Captain!</header>
         <div class="player-staging-board" data-board="1"></div>
         <div class="ship-choices">
-            <button data-value="ship">Carrier</button>
-            <button data-value="ship">Battleship</button>
-            <button data-value="ship">Cruiser</button>
-            <button data-value="ship">Submarine</button>
-            <button data-value="ship">Destroyer</button>
+            <button data-value="ship" data-ship="Carrier">Carrier</button>
+            <button data-value="ship" data-ship="Battleship">Battleship</button>
+            <button data-value="ship" data-ship="Cruiser">Cruiser</button>
+            <button data-value="ship" data-ship="Submarine">Submarine</button>
+            <button data-value="ship" data-ship="Destroyer">Destroyer</button>
+            <div class="ship-orientation-choice">
+                <button data-value="orientation"></button>
+            </div>
         </div>
-        <div class="ship-orientation-choice">
-            <button data-value="orientation">Horizontal</button>
-            <button data-value="orientation">Vertical</button>
-        </div>
-        <button>DONE</button>
+
+        <button data-function="start-game"></button>
     </dialog>
+    <audio class="sword-clash" src="./assets/sfx/sword-clash.mp3"></audio>
 </html>
