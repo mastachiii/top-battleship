@@ -70,8 +70,6 @@ document.addEventListener('click', (e) => {
             window.location.reload();
         }
 
-        // DOM.currentTurn = 'COMPUTER';
-        console.log(DOM.currentTurn);
         if (DOM.currentTurn === 'COMPUTER') {
             setTimeout(() => {
                 DOM.attackEvent(currentTarget, playerOne, xAxis, yAxis);
@@ -81,8 +79,8 @@ document.addEventListener('click', (e) => {
                     window.location.reload();
                 }
 
-                DOM.currentTurn = 1;
-            }, 3000);
+                // DOM.currentTurn = 1;
+            }, 1000);
         }
     }
 });

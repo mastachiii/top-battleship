@@ -1,4 +1,5 @@
 import { computer } from './computer';
+import cross from '../assets/images/cross.svg';
 
 const DOM = {
     currentTurn: 1,
@@ -110,7 +111,7 @@ const DOM = {
         if (this.currentTurn === 'COMPUTER') {
             let isHit = false;
 
-            this.currentTurn = 'COMPUTER';
+            console.log(true);
 
             while (isHit === false) {
                 let randomXAxis = Math.floor(Math.random() * 10);
@@ -134,8 +135,17 @@ const DOM = {
             }
 
             switch (isHit) {
+                case 'SUNK':
+                    const shipLife = document.querySelector(
+                        `.ship-life-${currentEnemy.gameBoard.ships + 1}`
+                    );
+
+                    shipLife.src = cross;
                 case 'HIT':
+                    this.currentTurn = 'COMPUTER';
+
                     setTimeout(() => {
+                        console.log(true);
                         this.attackEvent(currentSquare, currentEnemy, x, y);
 
                         if (currentEnemy.gameBoard.alertAllShipsDestroyed()) {
@@ -143,24 +153,12 @@ const DOM = {
                             window.location.reload();
                         }
                     }, 1000);
+
                     break;
 
                 case 'MISS':
                     this.currentTurn = 1;
             }
-
-            // if (isHit === 'HIT') {
-            //     setTimeout(() => {
-            //         this.attackEvent(currentSquare, currentEnemy, x, y);
-
-            //         if (currentEnemy.gameBoard.alertAllShipsDestroyed()) {
-            //             alert('YOU WIN');
-            //             window.location.reload();
-            //         }
-            //     }, 1000);
-            // }
-
-            // this.currentTurn = 1;
         }
 
         if (this.currentTurn === 1 && currentBoard === 2) {
@@ -174,7 +172,15 @@ const DOM = {
             DOM.createPlayerBoard(currentEnemy.gameBoard, 2);
             this.currentTurn = 'COMPUTER';
 
-            if (isHit === 'HIT') this.currentTurn = 1;
+            if (isHit === 'SUNK') {
+                const shipLife = document.querySelector(
+                    `.ship-life-enemy-${currentEnemy.gameBoard.ships + 1}`
+                );
+
+                shipLife.src = cross;
+            }
+
+            if (isHit === 'HIT' || isHit === 'SUNK') this.currentTurn = 1;
         }
     },
 

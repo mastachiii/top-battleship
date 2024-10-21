@@ -92,15 +92,21 @@ class Gameboard {
                     computer.hitQueue.push([x + 1, y]);
                     computer.hitQueue.push([x, y + 1]);
                 }
-                if (this[currentTarget].isSunk()) this.ships -= 1;
+
+                if (this[currentTarget].isSunk()) {
+                    this.ships -= 1;
+                    return 'SUNK';
+                }
+
                 if (this.ships === 0) return this.alertAllShipsDestroyed();
 
                 return 'HIT';
+
             } else {
                 this.missedSpaces.add(`${y}, ${x}`);
                 this.board[y][x] = 'MISS';
 
-                return 'MISS'
+                return 'MISS';
             }
         }
     }
