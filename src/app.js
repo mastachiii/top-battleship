@@ -66,20 +66,16 @@ document.addEventListener('click', (e) => {
         DOM.attackEvent(currentTarget, currentEnemy);
 
         if (currentEnemy.gameBoard.alertAllShipsDestroyed()) {
-            alert('YOU WIN');
-            window.location.reload();
+            DOM.nodes.playerVictoryScreen.showModal();
+            DOM.nodes.playerVictoryScreen.style.display = 'flex';
+            setTimeout(() => {
+                window.location.reload();
+            }, 5000);
         }
 
         if (DOM.currentTurn === 'COMPUTER') {
             setTimeout(() => {
                 DOM.attackEvent(currentTarget, playerOne, xAxis, yAxis);
-
-                if (playerOne.gameBoard.alertAllShipsDestroyed()) {
-                    alert('YOU WIN');
-                    window.location.reload();
-                }
-
-                // DOM.currentTurn = 1;
             }, 1000);
         }
     }

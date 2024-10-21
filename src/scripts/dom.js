@@ -15,6 +15,8 @@ const DOM = {
         playerTwoBoard: document.querySelector('.player-two-board'),
         playerStagingBoard: document.querySelector('.player-staging-board'),
         introScreen: document.querySelector('.intro-screen'),
+        playerVictoryScreen: document.querySelector('.player-victory-screen'),
+        enemyVictoryScreen: document.querySelector('.enemy-victory-screen')
     },
 
     createPlayerBoard(playerGameBoard, currentPlayer) {
@@ -149,8 +151,11 @@ const DOM = {
                         this.attackEvent(currentSquare, currentEnemy, x, y);
 
                         if (currentEnemy.gameBoard.alertAllShipsDestroyed()) {
-                            alert('YOU WIN');
-                            window.location.reload();
+                            DOM.nodes.enemyVictoryScreen.showModal();
+                            DOM.nodes.enemyVictoryScreen.style.display = 'flex';
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 5000)
                         }
                     }, 1000);
 

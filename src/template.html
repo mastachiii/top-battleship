@@ -68,5 +68,17 @@
 
         <button data-function="start-game"></button>
     </dialog>
-    <audio class="sword-clash" src="./assets/sfx/sword-clash.mp3"></audio>
+    <dialog class="player-victory-screen">
+        <header>Congratulations, You Won!</header>
+        <img src= "<%=require("./assets/images/pirate.svg")%>" />
+        <p>Shiver me timbers! You really showed them hell, Captain!</p>
+    </dialog>
+    <dialog class="enemy-victory-screen">
+        <header>You Lost, Better Luck Next Time....</header>
+        <img src= "<%=require("./assets/images/pirate-enemy.svg")%>" />
+        <p>
+            HA HA HA Enjoy your stay at Davy Jones' Locker, you lily-livered
+            swine!
+        </p>
+    </dialog>
 </html>
