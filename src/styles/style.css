@@ -212,11 +212,19 @@ html {
 }
 
 .miss {
-    background-color: crimson;
+    background-color: #67e8f9;
+    background-image: url(../assets/images/miss.svg);
+    background-size: calc(25rem / 16);
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .hit {
-    background-color: orange;
+    background-color: #67e8f9;
+    background-image: url(../assets/images/hit.svg);
+    background-size: calc(40rem / 16);
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .water {

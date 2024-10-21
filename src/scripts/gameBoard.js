@@ -99,10 +99,10 @@ class Gameboard {
             } else {
                 this.missedSpaces.add(`${y}, ${x}`);
                 this.board[y][x] = 'MISS';
+
+                return 'MISS'
             }
         }
-
-        return true;
     }
 
     alertAllShipsDestroyed() {

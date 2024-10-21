@@ -110,6 +110,8 @@ const DOM = {
         if (this.currentTurn === 'COMPUTER') {
             let isHit = false;
 
+            this.currentTurn = 'COMPUTER';
+
             while (isHit === false) {
                 let randomXAxis = Math.floor(Math.random() * 10);
                 let randomYAxis = Math.floor(Math.random() * 10);
@@ -129,23 +131,41 @@ const DOM = {
 
                 DOM.clearBoard(1);
                 DOM.createPlayerBoard(currentEnemy.gameBoard, 1);
-                this.currentTurn = 1;
             }
 
-            if (isHit === 'HIT') {
-                setTimeout(() => {
-                    this.currentTurn = 'COMPUTER';
-                    this.attackEvent(currentSquare, currentEnemy, x, y);
+            switch (isHit) {
+                case 'HIT':
+                    setTimeout(() => {
+                        this.attackEvent(currentSquare, currentEnemy, x, y);
 
-                    if (currentEnemy.gameBoard.alertAllShipsDestroyed()) {
-                        alert('YOU WIN');
-                        window.location.reload();
-                    }
-                }, 1000);
+                        if (currentEnemy.gameBoard.alertAllShipsDestroyed()) {
+                            alert('YOU WIN');
+                            window.location.reload();
+                        }
+                    }, 1000);
+                    break;
+
+                case 'MISS':
+                    this.currentTurn = 1;
             }
+
+            // if (isHit === 'HIT') {
+            //     setTimeout(() => {
+            //         this.attackEvent(currentSquare, currentEnemy, x, y);
+
+            //         if (currentEnemy.gameBoard.alertAllShipsDestroyed()) {
+            //             alert('YOU WIN');
+            //             window.location.reload();
+            //         }
+            //     }, 1000);
+            // }
+
+            // this.currentTurn = 1;
         }
 
         if (this.currentTurn === 1 && currentBoard === 2) {
+            if (this.currentTurn === 'COMPUTER') return;
+
             let isHit = currentEnemy.gameBoard.recieveAttack(xAxis, yAxis);
 
             if (!isHit) return;

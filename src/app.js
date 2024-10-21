@@ -82,7 +82,7 @@ document.addEventListener('click', (e) => {
                 }
 
                 DOM.currentTurn = 1;
-            }, 1000);
+            }, 3000);
         }
     }
 });
